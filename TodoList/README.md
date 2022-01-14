@@ -6,7 +6,7 @@
 <br>
 
 ### 첫 화면
-![FIRST_SCREEN](images\first_screen.png)
+![FIRST_SCREEN](https://github.com/JGeun/Android_Study/blob/master/TodoList/images/first_screen.png)
 
 <br>
 
