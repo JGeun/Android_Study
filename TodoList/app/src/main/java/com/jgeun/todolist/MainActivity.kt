@@ -33,14 +33,12 @@ class MainActivity : AppCompatActivity() {
         setStatusBarColor(R.color.main_color)
 
         todoList.add(ToDoData("Empty", "There is no data", false))
-        println("size: " + todoList.size)
 
         binding.rvTodo.apply{
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = ListAdapter(this@MainActivity, todoList)
         }
-
 
         writeDialog = Dialog(this)
         writeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -59,17 +57,26 @@ class MainActivity : AppCompatActivity() {
     private fun showWriteDialog(context: Context) {
         writeDialog.show()
 
+        val writeTitle = writeDialog.findViewById<EditText>(R.id.writeTitle)
+        val writeContents = writeDialog.findViewById<EditText>(R.id.writeContents)
 
         writeDialog.findViewById<Button>(R.id.saveBtn).setOnClickListener{
             Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
-            val title = writeDialog.findViewById<EditText>(R.id.writeTitle).text.toString()
-            val contents = writeDialog.findViewById<EditText>(R.id.writeContents).text.toString()
+            val title = writeTitle.text.toString()
+            val contents = writeContents.text.toString()
+
+            writeTitle.setText("")
+            writeContents.setText("")
+
             saveData(title, contents)
+
             writeDialog.dismiss()
         }
 
         writeDialog.findViewById<Button>(R.id.cancelBtn).setOnClickListener{
             Toast.makeText(context, "Canceled", Toast.LENGTH_SHORT).show()
+            writeTitle.setText("")
+            writeContents.setText("")
             writeDialog.dismiss()
         }
     }

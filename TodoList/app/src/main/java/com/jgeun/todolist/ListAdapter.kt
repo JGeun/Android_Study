@@ -40,8 +40,11 @@ class ListAdapter(private val context: Context, private val dataList: ArrayList<
             dataList[position].isDone = true
             notifyDataSetChanged()
         }
+
         holder.cancel.setOnClickListener{
             dataList.removeAt(position)
+            holder.itemView.background =
+                    ResourcesCompat.getDrawable(context.resources, R.drawable.bg_item_list, null)
             notifyDataSetChanged()
         }
     }
