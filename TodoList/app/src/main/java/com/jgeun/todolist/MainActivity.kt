@@ -21,17 +21,17 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
-    private val todoList = ArrayList<ToDoData>();
-    private lateinit var writeDialog : Dialog
-
+    private val todoList = ArrayList<ToDoData>(); //데이터 저장 리스트
+    private lateinit var writeDialog : Dialog //작성하는 dialog 화면
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setDateAndWeek()
-        setStatusBarColor(R.color.main_color)
+        setDateAndWeek() //날짜 및 요일 설정
+        setStatusBarColor(R.color.main_color) //statusbar 색상 설정
 
+        //첫 시작의 경우 data에 아무 것도 들어있지 않기 때문에 임시 데이터를 넣어줬습니다.
         todoList.add(ToDoData("Empty", "There is no data", false))
 
         binding.rvTodo.apply{
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun saveData(title: String, contents: String){
+    private fun saveData(title: String, contents: String){ //입력받은 주제와 내용을 리스트에 저장
         todoList.add(ToDoData(title, contents, false))
         binding.rvTodo.adapter!!.notifyDataSetChanged()
     }
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             writeTitle.setText("")
             writeContents.setText("")
 
-            saveData(title, contents)
+            saveData(title, contents) //입력받은 주제와 내용을 리스트에 저장
 
             writeDialog.dismiss()
         }
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDateAndWeek(){
+    private fun setDateAndWeek(){ //날짜 및 요일 설정
         val currentTime = Calendar.getInstance().time
         val weekdayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
         val dayFormat = SimpleDateFormat("dd", Locale.getDefault())
@@ -89,7 +89,8 @@ class MainActivity : AppCompatActivity() {
         binding.week.text = weekdayFormat.format(currentTime)
         binding.date.text = dayFormat.format(currentTime)+"th"
     }
-    private fun setStatusBarColor(color: Int){
+
+    private fun setStatusBarColor(color: Int){ //statusbar 색상 설정
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
