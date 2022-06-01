@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1069367183746",
+    "project_id": "basiccalendarapp",
+    "storage_bucket": "basiccalendarapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069367183746:android:87885f3be192569c16e79b",
+        "android_client_info": {
+          "package_name": "com.example.fcmtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069367183746-naav04f4vg72tiinv8jo02hr8ic8427c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJCeq_VvkiMol7PoGOZBrzZpi4TCeIvDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069367183746-naav04f4vg72tiinv8jo02hr8ic8427c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
