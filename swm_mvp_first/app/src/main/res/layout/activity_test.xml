@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_black"
-    tools:context=".MainActivity">
+    tools:context=".TestActivity">
 
     <!--    app:layout_constraintDimensionRatio="H,1:1" : 1대1 비율 지정.-->
 

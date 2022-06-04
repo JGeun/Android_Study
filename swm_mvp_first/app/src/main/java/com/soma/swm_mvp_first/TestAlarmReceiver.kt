@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-class AlarmReceiver : BroadcastReceiver() {
+class TestAlarmReceiver : BroadcastReceiver() {
 
     companion object {
         const val NOTIFICATION_CHANNEL_ID = "1000"
@@ -50,5 +50,4 @@ class AlarmReceiver : BroadcastReceiver() {
             notify(NOTIFICATION_ID, build.build())
         }
     }
-
 }

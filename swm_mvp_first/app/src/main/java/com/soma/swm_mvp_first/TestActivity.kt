@@ -5,13 +5,13 @@ import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.soma.swm_mvp_first.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatActivity
+import com.soma.swm_mvp_first.databinding.ActivityTestBinding
 import com.soma.swm_mvp_first.model.AlarmDisplayModel
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
 
     companion object {
         // static 영역 (상수 지정)
@@ -22,12 +22,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
+        ActivityTestBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         // 뷰를 초기화 해주기
         initOnOffButton()
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         val pendingIntent = PendingIntent.getBroadcast(
             this,
             M_ALARM_REQUEST_CODE,
-            Intent(this, AlarmReceiver::class.java),
+            Intent(this, TestAlarmReceiver::class.java),
             PendingIntent.FLAG_NO_CREATE
         ) // 있으면 가져오고 없으면 안만든다. (null)
 
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                 //알람 매니저 가져오기.
                 val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-                val intent = Intent(this, AlarmReceiver::class.java)
+                val intent = Intent(this, TestAlarmReceiver::class.java)
                 val pendingIntent = PendingIntent.getBroadcast(
                     this,
                     M_ALARM_REQUEST_CODE,
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         val pendingIntent = PendingIntent.getBroadcast(
             this,
             M_ALARM_REQUEST_CODE,
-            Intent(this, AlarmReceiver::class.java),
+            Intent(this, TestAlarmReceiver::class.java),
             PendingIntent.FLAG_NO_CREATE
         ) // 있으면 가져오고 없으면 안만든다. (null)
 
