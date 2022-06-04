@@ -21,7 +21,7 @@ enum class NotificationType(val title: String, val id: Int) {
     CUSTOM("커스텀 알림", 3),
 }
 
-class MainActivity : AppCompatActivity() {
+class Test2Activity : AppCompatActivity() {
 
     companion object {
         const val TAG = "MessageService"
