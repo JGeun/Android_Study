@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/importFragment"
+        android:icon="@drawable/ic_baseline_camera_alt_24"
+        android:title="Import" />
+
+    <item
+        android:id="@+id/galleryFragment"
+        android:icon="@drawable/ic_baseline_gallery_24"
+        android:title="Gallery" />
+
+    <item
+        android:id="@+id/slideShowFragment"
+        android:icon="@drawable/ic_baseline_slideshow_24"
+        android:title="Slideshow" />
+
+    <item
+        android:id="@+id/toolsFragment"
+        android:icon="@drawable/ic_baseline_tools_24"
+        android:title="Tools" />
+</menu>

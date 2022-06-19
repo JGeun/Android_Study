@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="jgeun.study.navigationview.view.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_importFragment"
+            app:destination="@id/importFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/importFragment"
+        android:name="jgeun.study.navigationview.view.ImportFragment"
+        android:label="ImportFragment">
+        <action
+            android:id="@+id/action_importFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolsFragment"
+        android:name="jgeun.study.navigationview.view.ToolsFragment"
+        android:label="ToolsFragment">
+        <action
+            android:id="@+id/action_toolsFragment_to_importFragment"
+            app:destination="@id/importFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/slideShowFragment"
+        android:name="jgeun.study.navigationview.view.SlideShowFragment"
+        android:label="SlideShowFragment">
+        <action
+            android:id="@+id/action_slideShowFragment_to_toolsFragment"
+            app:destination="@id/toolsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="jgeun.study.navigationview.view.GalleryFragment"
+        android:label="GalleryFragment">
+        <action
+            android:id="@+id/action_galleryFragment_to_slideShowFragment"
+            app:destination="@id/slideShowFragment" />
+    </fragment>
+
+
+</navigation>
