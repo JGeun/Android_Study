@@ -13,7 +13,6 @@ import jgeun.study.recyclerview.model.Data
 *  findViewById를 활용한 adapter 구현
 */
 
-
 //context: 연결될 Activity의 요소들을 가져오기 위한 context, dataList: 보여줄 data들
 class CustomAdapterByFindId(private val context: Context, private val dataList: ArrayList<Data>)
     : RecyclerView.Adapter<CustomAdapterByFindId.ViewHolder>(){
@@ -48,5 +47,4 @@ class CustomAdapterByFindId(private val context: Context, private val dataList: 
 
     // 뷰들의 개수
     override fun getItemCount(): Int = dataList.size
-
 }
