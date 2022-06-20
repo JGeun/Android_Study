@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BottomNaviFragmentActivity"
+            android:name=".BottomTabFragmentActivity"
             android:exported="false"/>
         <activity
             android:name=".NavigationDrawerActivity"

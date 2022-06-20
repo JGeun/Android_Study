@@ -43,7 +43,7 @@
         android:id="@+id/btn_btm_navi_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="bottom_navi_fragment"
+        android:text="bottom_tab_fragment"
         android:layout_marginTop="5dp"/>
 
     <Button

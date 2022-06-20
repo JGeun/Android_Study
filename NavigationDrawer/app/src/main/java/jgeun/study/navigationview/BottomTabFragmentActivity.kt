@@ -1,19 +1,15 @@
 package jgeun.study.navigationview
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import jgeun.study.navigationview.databinding.ActivityBottomNaviFragmentBinding
+import jgeun.study.navigationview.databinding.ActivityBottomTabFragmentBinding
 import jgeun.study.navigationview.view.*
 
-class BottomNaviFragmentActivity : AppCompatActivity() {
+class BottomTabFragmentActivity : AppCompatActivity() {
 
     private val binding by lazy {
-        ActivityBottomNaviFragmentBinding.inflate(layoutInflater)
+        ActivityBottomTabFragmentBinding.inflate(layoutInflater)
     }
 
     private val fragmentList = arrayListOf<Fragment>(
@@ -28,16 +24,21 @@ class BottomNaviFragmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar) //툴바를 action bar로 설정
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true) // 왼쪽 상단 버튼 만들기
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_24) //왼쪽 상단 버튼 아이콘 지정
 
+        //HomeFragment 첫화면으로 설정
         supportFragmentManager.beginTransaction()
             .replace(R.id.framelayout, HomeFragment())
             .commitAllowingStateLoss()
 
+
+        // 첫 화면 homeFragment로 지정
         binding.bottomNav.selectedItemId = R.id.homeFragment
+
+        // Item 선택에 따른 화면 전환
         binding.bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.homeFragment -> {
@@ -60,6 +61,7 @@ class BottomNaviFragmentActivity : AppCompatActivity() {
         }
     }
 
+    // fragment 교체
     private fun changeFragment(idx: Int) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.framelayout, fragmentList[idx]).commitAllowingStateLoss()
