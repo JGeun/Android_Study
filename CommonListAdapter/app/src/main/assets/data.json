@@ -1,0 +1,27 @@
+{
+  "viewItems": [
+    {
+      "viewType": "TWO_LINE_TEXT",
+      "viewObject": {
+        "titleText": "서울대입구역",
+        "descText": "서울특별시 관악구 남부순환로 지하 1822"
+      }
+    },
+    {
+      "viewType": "ONE_LINE_TEXT",
+      "viewObject": {
+        "titleText": "서울대입구역"
+      }
+    },
+    {
+      "viewType": "ONE_IMAGE",
+      "viewObject": {
+        "imageVO": {
+          "url": "https://dimg.donga.com/wps/NEWS/IMAGE/2022/01/28/111500268.2.jpg",
+          "width": 1024,
+          "height": 765
+        }
+      }
+    }
+  ]
+}
