@@ -1,5 +1,6 @@
 package jgeun.study.commonlistadapter.my
 
+/* viewType 종류에 따라 Object를 생성해줘야 합니다 */
 sealed class ViewObject {
 
     data class OneImageViewObject(

@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import jgeun.study.commonlistadapter.databinding.ActivityMainBinding
-import jgeun.study.commonlistadapter.my.CommonItem
-import jgeun.study.commonlistadapter.my.CommonListAdapter
 import jgeun.study.commonlistadapter.my.ImageVO
 import jgeun.study.commonlistadapter.my.ViewObject
-import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {

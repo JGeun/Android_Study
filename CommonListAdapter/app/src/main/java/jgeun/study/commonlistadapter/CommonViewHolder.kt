@@ -1,4 +1,4 @@
-package jgeun.study.commonlistadapter.my
+package jgeun.study.commonlistadapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -6,10 +6,13 @@ import com.bumptech.glide.Glide
 import jgeun.study.commonlistadapter.databinding.ItemOneImageBinding
 import jgeun.study.commonlistadapter.databinding.ItemOneLineTextBinding
 import jgeun.study.commonlistadapter.databinding.ItemTwoLineTextBinding
+import jgeun.study.commonlistadapter.my.ViewObject
 
+/* 새로운 뷰타입이 생길 때마다 ViewHolder를 추가해야 합니다 */
 sealed class CommonViewHolder(
     binding: ViewDataBinding
 ) : RecyclerView.ViewHolder(binding.root) {
+
     abstract fun bind(item: CommonItem)
 
     class OneLineTextViewHolder(
@@ -20,6 +23,7 @@ sealed class CommonViewHolder(
             binding.content.text = viewObject.contents
         }
     }
+
     class TwoLineTextViewHolder(
         private val binding: ItemTwoLineTextBinding
     ) : CommonViewHolder(binding) {
@@ -29,6 +33,7 @@ sealed class CommonViewHolder(
             binding.content.text = viewObject.contents
         }
     }
+
     class OneImageViewHolder(
         private val binding: ItemOneImageBinding
     ) : CommonViewHolder(binding) {
@@ -39,4 +44,5 @@ sealed class CommonViewHolder(
                 .into(binding.image)
         }
     }
+
 }
