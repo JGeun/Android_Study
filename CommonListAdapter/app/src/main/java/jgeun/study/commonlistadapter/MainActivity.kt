@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import jgeun.study.commonlistadapter.adapter.CommonListAdapter
+import jgeun.study.commonlistadapter.data.CommonItem
 import jgeun.study.commonlistadapter.databinding.ActivityMainBinding
 import jgeun.study.commonlistadapter.my.ImageVO
 import jgeun.study.commonlistadapter.my.ViewObject
