@@ -1,7 +1,10 @@
 package jgeun.study.room_java;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
 import android.os.Bundle;
@@ -11,31 +14,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import jgeun.study.room_java.databinding.ActivityMainBinding;
 
-    private EditText mTodoEditText;
-    private TextView mResultTextView;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setLifecycleOwner(this);
 
-        mTodoEditText = findViewById(R.id.todo_edit);
-        mResultTextView = findViewById(R.id.result_text);
-
-        AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, "todo-db")
-                .allowMainThreadQueries() //MainThread에서 db를 저장해도 괜찮다는 뜻 (실무에선 X - Back에서 돌아가게 함)
-                .build();
-
-        // UI 갱신
-        db.todoDao().getAll().observe(this, todos -> {
-            mResultTextView.setText(todos.toString());
-        });
-
-        // 버튼 클릭 시 DB에 insert
-        findViewById(R.id.add_button).setOnClickListener(v -> {
-            db.todoDao().insert(new Todo(mTodoEditText.getText().toString()));
-        });
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        binding.setViewModel(viewModel);
     }
 }
