@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Git repository/Android_Study/Inflearn_Jetpack/MaskInfo/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.206" />
         <entry key="..\:/Git repository/Android_Study/Inflearn_Jetpack/MaskInfo/app/src/main/res/layout/activity_main.xml" value="0.2765625" />
+        <entry key="..\:/Git repository/Android_Study/Inflearn_Jetpack/MaskInfo/app/src/main/res/layout/item_store.xml" value="0.3125" />
+        <entry key="..\:/Git repository/Android_Study/Inflearn_Jetpack/MaskInfo/app/src/main/res/menu/main_menu.xml" value="0.31197916666666664" />
       </map>
     </option>
   </component>
