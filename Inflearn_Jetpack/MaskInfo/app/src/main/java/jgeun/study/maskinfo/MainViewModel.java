@@ -1,5 +1,6 @@
 package jgeun.study.maskinfo;
 
+import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
@@ -25,6 +26,9 @@ public class MainViewModel extends ViewModel {
     private static final String TAG = MainViewModel.class.getSimpleName();
 
     public MutableLiveData<List<Store>> itemLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> loadingLiveData = new MutableLiveData<>();
+
+    public Location location;
 
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(MaskService.BASE_URL)
@@ -33,19 +37,33 @@ public class MainViewModel extends ViewModel {
 
     private MaskService service = retrofit.create(MaskService.class);
 
-    private Call<StoreInfo> storeInfoCall = service.fetchStoreInfo();
 
     public void fetchStoreInfo() {
-        storeInfoCall.clone().enqueue(new Callback<StoreInfo>() {
+        // 로딩 시작
+        loadingLiveData.setValue(true);
+
+        service.fetchStoreInfo(location.getLatitude(), location.getLongitude())
+                .enqueue(new Callback<StoreInfo>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<StoreInfo> call, Response<StoreInfo> response) {
+                Log.d(TAG, "onResponse: refresh");
                 List<Store> items = response.body().getStores()
                         .stream()
                         .filter(item -> item.getRemain_stat() != null)
+                        .filter(item -> !item.getRemain_stat().equals("empty"))
                         .collect(Collectors.toList());
 
+                for (Store store : items) {
+                    double distance = LocationDistance.distance(location.getLatitude(), location.getLongitude(), store.getLat(), store.getLng(), "k");
+                    store.setDistance(distance);
+                }
+
+                Collections.sort(items);
+
                 itemLiveData.postValue(items);
+
+                loadingLiveData.postValue(false);
             }
 
             @Override

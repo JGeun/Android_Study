@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +20,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,10 +48,58 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private MainViewModel viewModel;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                performAction();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        };
+
+        TedPermission.create()
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private void performAction() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        Log.d(TAG, "getLatitude: " + location.getLatitude());
+                        Log.d(TAG, "getLongitude: " + location.getLongitude());
+
+                        location.setLatitude(37.5360);
+                        location.setLongitude(126.9940);
+                        viewModel.location = location;
+                        viewModel.fetchStoreInfo();
+                    }
+                });
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
@@ -50,16 +109,19 @@ public class MainActivity extends AppCompatActivity {
         final StoreAdapter adapter = new StoreAdapter();
         recyclerView.setAdapter(adapter);
 
-        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
         // UI 변경 감지 업데이트
-       viewModel.itemLiveData.observe(this, stores -> {
-            adapter.updateItems(stores);
-            getSupportActionBar().setTitle("마스크 재고 있는 곳 " + stores.size());
-        });
+        viewModel.itemLiveData.observe(this, stores -> {
+             adapter.updateItems(stores);
+             getSupportActionBar().setTitle("마스크 재고 있는 곳 " + stores.size());
+         });
 
-        // 데이터 요청
-        viewModel.fetchStoreInfo();
+        viewModel.loadingLiveData.observe(this, isLoading -> {
+            if (isLoading) {
+                findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.progressBar).setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -74,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                // refresh
+
+                viewModel.fetchStoreInfo();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -124,7 +187,7 @@ class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHolder> {
 
         holder.nameTextView.setText(store.getName());
         holder.addressTextView.setText(store.getAddr());
-        holder.distanceTextView.setText("1.0Km");
+        holder.distanceTextView.setText(String.format("%.2fkm", store.getDistance()));
 
 
         String remainStat = "충분";
