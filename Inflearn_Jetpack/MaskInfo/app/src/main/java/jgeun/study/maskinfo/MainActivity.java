@@ -1,10 +1,14 @@
 package jgeun.study.maskinfo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jgeun.study.maskinfo.model.Store;
 import jgeun.study.maskinfo.model.StoreInfo;
@@ -45,28 +50,16 @@ public class MainActivity extends AppCompatActivity {
         final StoreAdapter adapter = new StoreAdapter();
         recyclerView.setAdapter(adapter);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MaskService.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build();
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        MaskService service = retrofit.create(MaskService.class);
-
-        Call<StoreInfo> storeInfoCall = service.fetchStoreInfo();
-
-        storeInfoCall.enqueue(new Callback<StoreInfo>() {
-            @Override
-            public void onResponse(Call<StoreInfo> call, Response<StoreInfo> response) {
-                List<Store> items = response.body().getStores();
-                adapter.updateItems(items);
-                getSupportActionBar().setTitle("마스크 재고 있는 곳: " + items.size() + "");
-            }
-
-            @Override
-            public void onFailure(Call<StoreInfo> call, Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-            }
+        // UI 변경 감지 업데이트
+       viewModel.itemLiveData.observe(this, stores -> {
+            adapter.updateItems(stores);
+            getSupportActionBar().setTitle("마스크 재고 있는 곳 " + stores.size());
         });
+
+        // 데이터 요청
+        viewModel.fetchStoreInfo();
     }
 
     @Override
@@ -132,8 +125,39 @@ class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHolder> {
         holder.nameTextView.setText(store.getName());
         holder.addressTextView.setText(store.getAddr());
         holder.distanceTextView.setText("1.0Km");
-        holder.remainTextView.setText(store.getRemain_stat());
-        holder.countTextView.setText("100개 이상");
+
+
+        String remainStat = "충분";
+        String count = "100개 이상";
+        int color = Color.GREEN;
+        switch (store.getRemain_stat()) {
+            case "plenty":
+                remainStat = "충분";
+                count = "100개 이상";
+                color = Color.GREEN;
+                break;
+            case "some":
+                remainStat = "여유";
+                count = "30개 이상";
+                color = Color.YELLOW;
+                break;
+            case "few":
+                remainStat = "매진 임박";
+                count = "2개 이상";
+                color = Color.RED;
+                break;
+            case "empty":
+                remainStat = "재고 없음";
+                count = "1개 이하";
+                color = Color.GRAY;
+                break;
+            default:
+        }
+        holder.remainTextView.setText(remainStat);
+        holder.countTextView.setText(count);
+
+        holder.remainTextView.setTextColor(color);
+        holder.countTextView.setTextColor(color);
     }
 
     @Override
