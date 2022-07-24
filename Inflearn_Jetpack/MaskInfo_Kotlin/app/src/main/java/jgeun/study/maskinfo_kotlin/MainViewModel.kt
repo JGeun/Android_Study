@@ -3,32 +3,20 @@ package jgeun.study.maskinfo_kotlin
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import jgeun.study.maskinfo_kotlin.model.Store
 import jgeun.study.maskinfo_kotlin.repository.MaskService
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val service: MaskService
+) : ViewModel() {
     val itemLiveData = MutableLiveData<List<Store>>()
     val loadingLiveData = MutableLiveData<Boolean>()
 
-    lateinit var gson: Gson
-    var service: MaskService
-
     init {
-        gson = GsonBuilder().setLenient().create()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(MaskService.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-        service = retrofit.create(MaskService::class.java)
-
         fetchStoreInfo()
     }
 
