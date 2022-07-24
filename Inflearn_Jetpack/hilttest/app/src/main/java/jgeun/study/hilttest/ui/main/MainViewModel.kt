@@ -1,10 +1,12 @@
 package jgeun.study.hilttest.ui.main
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import jgeun.study.hilttest.data.MyRepository
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val repository: MyRepository
 ): ViewModel() {
 

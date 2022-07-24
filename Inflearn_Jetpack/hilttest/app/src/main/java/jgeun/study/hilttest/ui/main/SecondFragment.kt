@@ -41,8 +41,8 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
             findNavController().navigate(R.id.action_secondFragment_to_mainFragment)
         }
 
-        Log.d("SecondFragment", "applicationHash: ${applicationHash}")
-        Log.d("SecondFragment", "activityHash: ${activityHash}")
+        Log.d("SecondFragment", "applicationHash: $applicationHash")
+        Log.d("SecondFragment", "activityHash: $activityHash")
         Log.d("SecondFragment", "viewModel: ${viewModel.getRepositoryHash()}")
     }
 }
