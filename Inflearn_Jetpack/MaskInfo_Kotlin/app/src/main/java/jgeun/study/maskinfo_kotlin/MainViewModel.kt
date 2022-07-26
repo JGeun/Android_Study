@@ -1,8 +1,11 @@
 package jgeun.study.maskinfo_kotlin
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jgeun.study.maskinfo_kotlin.model.Store
 import jgeun.study.maskinfo_kotlin.repository.MaskService
@@ -11,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val service: MaskService
+    private val service: MaskService,
+    private var funsedLocationClient : FusedLocationProviderClient
 ) : ViewModel() {
     val itemLiveData = MutableLiveData<List<Store>>()
     val loadingLiveData = MutableLiveData<Boolean>()
@@ -20,15 +24,22 @@ class MainViewModel @Inject constructor(
         fetchStoreInfo()
     }
 
+    @SuppressLint("MissingPermission")
     fun fetchStoreInfo() {
         loadingLiveData.value = true
 
-        // ViewModel LifeScope 안에 있을 때 돌아감
-        viewModelScope.launch {
-            val storeInfo = service.fetchStoreInfo(37.5360, 126.9940)
-            itemLiveData.value = storeInfo.stores
+        funsedLocationClient.lastLocation.addOnSuccessListener { location ->
+            viewModelScope.launch {
+                val storeInfo = service.fetchStoreInfo(location.latitude, location.longitude)
+                itemLiveData.value = storeInfo.stores.filter { it.remain_stat != null }
 
+                loadingLiveData.value = false
+            }
+        }.addOnFailureListener { exception ->
             loadingLiveData.value = false
         }
+
+        // ViewModel LifeScope 안에 있을 때 돌아감
+
     }
 }

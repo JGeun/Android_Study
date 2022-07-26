@@ -8,7 +8,7 @@ data class Store(
     var lat: Double,
     var lng: Double,
     var name: String,
-    var remain_stat: String,
+    var remain_stat: String?,
     var stock_at: String,
     var type: String
 )
