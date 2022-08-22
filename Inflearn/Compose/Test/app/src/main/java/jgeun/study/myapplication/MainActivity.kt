@@ -11,7 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import jgeun.study.myapplication.ui.theme.MyApplicationTheme
@@ -20,22 +20,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    color = MaterialTheme.colors.background
+            Box(
+                modifier = Modifier
+                    .background(color = Color.Green)
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) {
+                Text("Hello")
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.BottomEnd
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(color = androidx.compose.ui.graphics.Color.Blue)
-                            .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text("Hello")
-                        Text("World")
-                    }
+                    Text(text = "Hello ~~~~~")
                 }
             }
         }
